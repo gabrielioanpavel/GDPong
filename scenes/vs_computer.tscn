@@ -1,0 +1,135 @@
+[gd_scene load_steps=14 format=3 uid="uid://gqtbpofuym4t"]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_qwqmb"]
+[ext_resource type="Texture2D" uid="uid://b7t762pqxax0b" path="res://assets/sprites/dotted_line_texture.png" id="2_krn35"]
+[ext_resource type="PackedScene" uid="uid://8ko6o140hlpj" path="res://scenes/player.tscn" id="3_wepv5"]
+[ext_resource type="PackedScene" uid="uid://cv8i0fxthkbg2" path="res://scenes/ball.tscn" id="4_kw5yr"]
+[ext_resource type="PackedScene" uid="uid://cu7levl2t6cpp" path="res://scenes/enemy.tscn" id="4_njpay"]
+[ext_resource type="Script" path="res://scripts/player_movement_vs_computer.gd" id="4_vbkrr"]
+[ext_resource type="FontFile" uid="uid://cncjostucxix7" path="res://assets/fonts/ARCADECLASSIC.TTF" id="5_a2eq4"]
+[ext_resource type="Script" path="res://scenes/enemy_movement.gd" id="6_atox0"]
+[ext_resource type="AudioStream" uid="uid://bwfavg4khncio" path="res://assets/sounds/hit1.wav" id="9_manpy"]
+[ext_resource type="AudioStream" uid="uid://lte2ywy6tb5m" path="res://assets/sounds/point.wav" id="10_lkgtq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jwx83"]
+size = Vector2(63.6, 71.8)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_xken7"]
+distance = -6.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ibv5c"]
+size = Vector2(75, 784)
+
+[node name="VS Computer" type="Node2D"]
+script = ExtResource("1_qwqmb")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.0392157, 0.0392157, 0.0392157, 1)
+
+[node name="Line2D" type="Line2D" parent="."]
+texture_repeat = 2
+position = Vector2(640, 0.0684929)
+scale = Vector2(1, 1.0137)
+points = PackedVector2Array(0, 0, 0, 720)
+width = 5.0
+texture = ExtResource("2_krn35")
+texture_mode = 1
+
+[node name="Player" parent="." instance=ExtResource("3_wepv5")]
+position = Vector2(50, 345)
+scale = Vector2(10, 10)
+script = ExtResource("4_vbkrr")
+
+[node name="Enemy" parent="." instance=ExtResource("4_njpay")]
+position = Vector2(1230, 345)
+scale = Vector2(10, 10)
+script = ExtResource("6_atox0")
+
+[node name="Area2D2" type="Area2D" parent="."]
+position = Vector2(1230, 345)
+scale = Vector2(10, 10)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(-27, 1.40001)
+shape = SubResource("RectangleShape2D_jwx83")
+
+[node name="Ball" parent="." instance=ExtResource("4_kw5yr")]
+position = Vector2(640, 345)
+collision_mask = 1
+
+[node name="Borders" type="Node" parent="."]
+
+[node name="World Border" type="Area2D" parent="Borders"]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/World Border"]
+position = Vector2(0, 8)
+rotation = -3.14159
+shape = SubResource("WorldBoundaryShape2D_xken7")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Borders/World Border"]
+position = Vector2(0, 712)
+shape = SubResource("WorldBoundaryShape2D_xken7")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Borders/World Border"]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/World Border/StaticBody2D"]
+position = Vector2(0, 5)
+rotation = -3.14159
+shape = SubResource("WorldBoundaryShape2D_xken7")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Borders/World Border/StaticBody2D"]
+position = Vector2(0, 716)
+shape = SubResource("WorldBoundaryShape2D_xken7")
+
+[node name="Left" type="Area2D" parent="Borders"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Left"]
+position = Vector2(-39, 360)
+shape = SubResource("RectangleShape2D_ibv5c")
+
+[node name="Right" type="Area2D" parent="Borders"]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Right"]
+position = Vector2(1319, 360)
+shape = SubResource("RectangleShape2D_ibv5c")
+
+[node name="P1_SCORE" type="Label" parent="."]
+offset_left = 492.0
+offset_right = 558.0
+offset_bottom = 122.0
+theme_override_fonts/font = ExtResource("5_a2eq4")
+theme_override_font_sizes/font_size = 100
+text = "0"
+horizontal_alignment = 2
+
+[node name="P2_SCORE" type="Label" parent="."]
+offset_left = 722.0
+offset_right = 777.0
+offset_bottom = 102.0
+theme_override_fonts/font = ExtResource("5_a2eq4")
+theme_override_font_sizes/font_size = 100
+text = "0"
+
+[node name="hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_manpy")
+volume_db = 10.0
+
+[node name="point" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_lkgtq")
+
+[connection signal="body_entered" from="Area2D2" to="Enemy" method="_on_area_2d_2_body_entered"]
+[connection signal="body_exited" from="Area2D2" to="Enemy" method="_on_area_2d_2_body_exited"]
+[connection signal="body_entered" from="Borders/World Border" to="." method="_on_world_border_body_entered"]
+[connection signal="body_entered" from="Borders/Left" to="." method="_on_left_body_entered"]
+[connection signal="body_entered" from="Borders/Right" to="." method="_on_right_body_entered"]

@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://djr8nw1v3rx1f"]
+
+[ext_resource type="Texture2D" uid="uid://b7t762pqxax0b" path="res://assets/sprites/dotted_line_texture.png" id="1_3mbre"]
+[ext_resource type="PackedScene" uid="uid://8ko6o140hlpj" path="res://scenes/player.tscn" id="2_oca4f"]
+[ext_resource type="Script" path="res://scripts/player_movement.gd" id="3_jhlxx"]
+[ext_resource type="PackedScene" uid="uid://cv8i0fxthkbg2" path="res://scenes/ball.tscn" id="4_npn6y"]
+
+[node name="Game" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.0392157, 0.0392157, 0.0392157, 1)
+
+[node name="Line2D" type="Line2D" parent="."]
+texture_repeat = 2
+position = Vector2(640, 0.0684929)
+scale = Vector2(1, 1.0137)
+points = PackedVector2Array(0, 0, 0, 720)
+width = 5.0
+texture = ExtResource("1_3mbre")
+texture_mode = 1
+
+[node name="Player" parent="." instance=ExtResource("2_oca4f")]
+position = Vector2(40, 345)
+scale = Vector2(10, 10)
+script = ExtResource("3_jhlxx")
+
+[node name="Player2" parent="." instance=ExtResource("2_oca4f")]
+position = Vector2(1237, 345)
+scale = Vector2(10, 10)
+script = ExtResource("3_jhlxx")
+
+[node name="Ball" parent="." instance=ExtResource("4_npn6y")]
+position = Vector2(640, 345)

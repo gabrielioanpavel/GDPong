@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://8ko6o140hlpj"]
+
+[ext_resource type="Script" path="res://scripts/player_movement.gd" id="1_72j7v"]
+[ext_resource type="Texture2D" uid="uid://7kr8qlk4wvhh" path="res://assets/sprites/player.png" id="1_mrvco"]
+[ext_resource type="AudioStream" uid="uid://bwfavg4khncio" path="res://assets/sounds/hit1.wav" id="3_th6p1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aw5l0"]
+size = Vector2(1.0099, 7.9505)
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_72j7v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_aw5l0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_mrvco")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2(1.2, 1.05)
+shape = SubResource("RectangleShape2D_aw5l0")
+
+[node name="hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_th6p1")
+volume_db = 10.0
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

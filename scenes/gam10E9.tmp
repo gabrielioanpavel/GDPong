@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://djr8nw1v3rx1f"]
+
+[ext_resource type="Texture2D" uid="uid://b7t762pqxax0b" path="res://assets/sprites/dotted_line_texture.png" id="1_3mbre"]
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_n2fjs"]
+[ext_resource type="PackedScene" uid="uid://8ko6o140hlpj" path="res://scenes/player.tscn" id="2_oca4f"]
+[ext_resource type="PackedScene" uid="uid://cv8i0fxthkbg2" path="res://scenes/ball.tscn" id="4_npn6y"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_xken7"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_n2fjs")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.0392157, 0.0392157, 0.0392157, 1)
+
+[node name="Line2D" type="Line2D" parent="."]
+texture_repeat = 2
+position = Vector2(640, 0.0684929)
+scale = Vector2(1, 1.0137)
+points = PackedVector2Array(0, 0, 0, 720)
+width = 5.0
+texture = ExtResource("1_3mbre")
+texture_mode = 1
+
+[node name="Player" parent="." instance=ExtResource("2_oca4f")]
+position = Vector2(50, 345)
+scale = Vector2(10, 10)
+
+[node name="Player2" parent="." instance=ExtResource("2_oca4f")]
+position = Vector2(1230, 345)
+scale = Vector2(10, 10)
+SIDE = "p2"
+
+[node name="Ball" parent="." instance=ExtResource("4_npn6y")]
+position = Vector2(640, 345)
+
+[node name="World Border" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Border"]
+position = Vector2(0, 1)
+rotation = -3.14159
+shape = SubResource("WorldBoundaryShape2D_xken7")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="World Border"]
+position = Vector2(0, 720)
+shape = SubResource("WorldBoundaryShape2D_xken7")
+
+[connection signal="body_entered" from="World Border" to="." method="_on_world_border_body_entered"]

@@ -1,0 +1,99 @@
+[gd_scene load_steps=4 format=3 uid="uid://cxoxrbgwn48gh"]
+
+[ext_resource type="FontFile" uid="uid://cncjostucxix7" path="res://assets/fonts/ARCADECLASSIC.TTF" id="1_c4hx8"]
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_tik1r"]
+[ext_resource type="AudioStream" uid="uid://c4pmtvycx5q8e" path="res://assets/sounds/click.wav" id="2_2g76f"]
+
+[node name="Main Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tik1r")
+
+[node name="click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_2g76f")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.0392157, 0.0392157, 0.0392157, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 140
+
+[node name="Separator" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_c4hx8")
+theme_override_font_sizes/font_size = 64
+text = "GDPONG"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Separator" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Separator4" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Separator5" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VS Player" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(132, 36)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_c4hx8")
+theme_override_font_sizes/font_size = 20
+text = "VS Player"
+
+[node name="Separator2" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VS Computer" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(132, 36)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_c4hx8")
+theme_override_font_sizes/font_size = 20
+text = "VS Computer"
+
+[node name="Separator3" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Quit" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(132, 36)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_c4hx8")
+theme_override_font_sizes/font_size = 20
+text = "Quit"
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/VS Player" to="." method="_on_vs_player_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/VS Computer" to="." method="_on_vs_computer_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
